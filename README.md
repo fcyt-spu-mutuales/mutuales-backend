@@ -48,6 +48,16 @@ And finally you can run the application with
 npm run dev
 ```
 
+Finally you must create an .env file located on the project root directory, with the variables to connect to the database
+```
+NODE_ENV=development
+PG_USER=mutuales
+PG_PASSWORD=mutualesFCYT
+PG_DATABASE=mutuales
+PG_HOSTNAME=localhost
+PG_PORT=5432
+```
+
 ## Running the tests
 
 To be defined

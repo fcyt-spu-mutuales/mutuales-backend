@@ -1,7 +1,7 @@
 import "reflect-metadata"; // this shim is required
 import { createExpressServer } from "routing-controllers";
 import { createConnection } from "typeorm";
-const path = require('path')
+import path = require('path');
 const config = require(path.join(__dirname, '../ormconfig.js'))
 
 // creates express app, registers all controller routes and returns you express app instance
@@ -17,6 +17,6 @@ createConnection(config)
     });
 
     // run express application on port 3000
-    app.listen(8000);
+    app.listen(3000);
   })
   .catch(error => console.log("TypeORM connection error: ", error));
