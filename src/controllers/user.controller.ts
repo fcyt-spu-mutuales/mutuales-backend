@@ -28,7 +28,6 @@ import {
   
     @Post("/users/create")
     async post(@Body() request: any) {
-      console.log(request)
       const newUser = new User();
       newUser.password = request.password;
       newUser.email = request.email;
