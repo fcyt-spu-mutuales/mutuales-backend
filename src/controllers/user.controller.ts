@@ -28,12 +28,11 @@ import {
   
     @Post("/users/create")
     async post(@Body() request: any) {
-      const newUser = new User();
-      newUser.password = request.password;
-      newUser.email = request.email;
-      newUser.firstName = request.firstName;
-      newUser.lastName = request.lastName;
-  
+    
+      const newUser = {
+        ...request
+      };
+    
       const userToSave: User = await this.repository.create(newUser);
       return this.repository.save(userToSave);
     }
