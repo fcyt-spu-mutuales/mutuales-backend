@@ -9,7 +9,9 @@ import {
   } from "routing-controllers";
   import { getManager } from "typeorm";
   import { User } from "../persistence/entity/user.entity";
-  
+  import bcrypt = require('bcrypt');
+
+
   @JsonController()
   export class UserController {
     repository: any;
@@ -23,29 +25,50 @@ import {
   
     @Get("/users/:id")
     getOne(@Param("id") id: number) {
-      return this.repository.IndOne(id);
+      return this.repository.findOne(id);
     }
   
     @Post("/users/create")
     async post(@Body() request: any) {
     
       const newUser = {
-        ...request
+        ...request,
+        password: bcrypt.hashSync(request.password, 10)
       };
     
-      const userToSave: User = await this.repository.create(newUser);
-      return this.repository.save(userToSave);
+      const userToSave: User = await this.repository.create(newUser)
+      return this.repository.save(userToSave)
     }
   
-    @Put("/users/:id")
-    put(@Param("id") id: number, @Body() user: User) {
-      const currentUser: User = this.repository.findOne(id);
-  
-      currentUser.email = user.email;
-      currentUser.firstName = user.firstName;
-      currentUser.password = user.password;
-  
-      return this.repository.save(currentUser);
+    @Post("/users/login")
+    async login(@Body() request: any) {
+
+      const userToFind = await this.repository.createQueryBuilder("user")
+                                              .where("user.email = :email", {email: request.email})
+                                              .getOne();
+      
+      // If user doesn't exist just return a message 
+      if(!userToFind) {
+        return {
+          sucess: false,
+          message: "Invalid user or password"
+        }
+      }
+
+      // Validate password
+      if (bcrypt.compareSync(request.password, userToFind.password)) {
+          return {
+            id: userToFind.id,
+            firstName: userToFind.firstName,
+            lastName: userToFind.lastName,
+            success: true
+          }
+      } else {
+        return {
+          success: false,
+          message: "Invalid user or password"
+        }
+      }
     }
   
     @Delete("/users/:id")
