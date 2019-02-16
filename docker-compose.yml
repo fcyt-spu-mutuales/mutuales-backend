@@ -10,24 +10,3 @@ services:
       POSTGRES_DB: mutuales
       POSTGRES_USER: mutuales
       POSTGRES_PASSWORD: mutualesFCYT
-  api:
-    container_name: mutuales-api
-    build: ./
-    restart: always
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./app:/srv/api/app
-    ports:
-      - "3000:3000"
-    links:
-      - db-mutuales
-    environment:
-      PG_PASSWORD: mutualesFCYT
-      PG_DATABASE: mutuales
-      PG_USER: mutuales
-      PG_HOSTNAME: localhost
-      PG_HOST: 5432
-      WAIT_HOSTS: db-mutuales:5432
-    depends_on:
-      - db-mutuales
