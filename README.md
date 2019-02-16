@@ -70,18 +70,32 @@ To be defined
 
 To develop this application we are using AirBnB Coding style (https://github.com/airbnb/javascript) 
 
+### Devops Stuff
+
+We will use docker and docker compose to deploy our application, for this to work, first install docker (https://www.docker.com/products/docker-desktop)
+
+And then docker compose: (https://docs.docker.com/compose/install/)
+
+To startup the database, execute:
+
+```
+docker-compose up
+```
+
+
+
 ## Deployment
 
 To deploy this application, we use docker to build or image:
 
 ```
-docker image build -t code-challenge
+docker image build -t mutuales-spu
 ```
 
 And run the image with
 
 ```
-docker run -p 3000:3000 code-challenge
+docker run -p 3000:3000 mutuales-spu
 ```
 
 ## Built With
