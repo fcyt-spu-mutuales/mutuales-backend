@@ -10,8 +10,16 @@ export class UserController {
     this.repository = getManager().getRepository(User);
   }
   @Get('/users')
-  getAll() {
-    return this.repository.find();
+  async getAll() {
+    const allUsers: [User] = await this.repository.find();
+    const usersWithoutPassword = allUsers.map(user => {
+      delete user.password
+      return user
+    })
+    return {
+      success: true,
+      users: usersWithoutPassword
+    }
   }
 
   @Get('/users/:id')
@@ -21,7 +29,7 @@ export class UserController {
 
       //remove password
       delete findedUser.password;
-      
+
       return {
         success: true,
         user: findedUser
