@@ -2,21 +2,21 @@
 
 language: node_js
 
-env:  
-  - PG_USER=postgres
-  - PG_PASSWORD=mutualesFCYT
-  - PG_DATABASE=mutuales
-  - PG_HOSTNAME=localhost
-  - PG_PORT=5432
+# env:  
+#   - PG_USER=postgres
+#   - PG_PASSWORD=mutualesFCYT
+#   - PG_DATABASE=mutuales
+#   - PG_HOSTNAME=localhost
+#   - PG_PORT=5432
 node_js:
 - 'node'
 before_install:
 - npm install -g typescript ts-node
 - npm install
-services:
-  - postgresql
+# services:
+#   - postgresql
 
-before_script:
-  - psql -c 'create database mutuales;' -U postgres
+# before_script:
+#   - psql -c 'create database mutuales;' -U postgres
 script:
 - npm run build
