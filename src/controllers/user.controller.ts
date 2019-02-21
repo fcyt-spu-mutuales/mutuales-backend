@@ -15,8 +15,23 @@ export class UserController {
   }
 
   @Get('/users/:id')
-  getOne(@Param('id') id: number) {
-    return this.repository.findOne(id);
+  async getOne(@Param('id') id: number) {
+    try {
+      const findedUser: User = await this.repository.findOneOrFail(id);
+
+      //remove password
+      delete findedUser.password;
+      
+      return {
+        success: true,
+        user: findedUser
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error
+      };
+    }
   }
 
   @Post('/users/create')
@@ -26,12 +41,12 @@ export class UserController {
       password: bcrypt.hashSync(request.password, 10)
     };
     try {
-      const userToSave: User = await this.repository.save(newUser)
+      const userToSave: User = await this.repository.save(newUser);
       return {
         sucess: true,
         id: userToSave.id,
         message: 'User Created'
-      }
+      };
     } catch (error) {
       return {
         success: false,
