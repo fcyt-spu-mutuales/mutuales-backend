@@ -80,11 +80,10 @@ export class UserController {
 
     // Validate password
     if (bcrypt.compareSync(request.password, userToFind.password)) {
+      delete userToFind.password
       return {
-        id: userToFind.id,
-        firstName: userToFind.firstName,
-        lastName: userToFind.lastName,
-        success: true
+        success: true, 
+        data: userToFind
       };
     } else {
       return {

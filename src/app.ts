@@ -12,6 +12,7 @@ const config = require(path.join(__dirname, '../ormconfig.js'))
 createConnection(config)
   .then(async connection => {
     const app = createExpressServer({
+      cors: true,
       routePrefix: "/api",
       controllers: [__dirname + "/controllers/*.ts"]
     });
