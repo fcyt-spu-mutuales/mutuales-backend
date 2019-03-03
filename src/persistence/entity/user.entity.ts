@@ -1,10 +1,7 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  OneToMany,
-  ManyToOne
+  Column
 } from "typeorm";
 
 @Entity()
@@ -25,4 +22,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({
+    default: false
+  })
+  enabled: boolean;
 }
