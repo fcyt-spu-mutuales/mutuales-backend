@@ -67,7 +67,7 @@ export class UserController {
   async login(@Body() request: any) {
     const userToFind = await this.repository
       .createQueryBuilder('user')
-      .where('user.email = :email', { email: request.email })
+      .where('user.email = :email and enabled = true', { email: request.email })
       .getOne();
 
     // If user doesn't exist just return a message

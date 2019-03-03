@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "./node_modules/nodemon/bin/nodemon.js",
+    "dev": "nodemon",
     "start": "ts-node src/app.ts",
     "prod": "npm run build && npm run start",
     "dev:up": "docker-compose up",
