@@ -46,6 +46,7 @@ export class UserController {
   async post(@Body() request: any) {
     const newUser = {
       ...request,
+      enabled: false,
       password: bcrypt.hashSync(request.password, 10)
     };
     try {
