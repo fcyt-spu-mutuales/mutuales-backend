@@ -40,9 +40,17 @@ export class UserController {
       .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
       .getMany();
 
+    // Count how many records match
+    const userSize: any = await this.repository
+    .createQueryBuilder('user')
+    .select('COUNT(user.id)','count')
+    .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
+    .getRawOne();
+
     return {
       success: true,
-      users: allUsers
+      users: allUsers,
+      totalElements:userSize.count
     };
   }
 
