@@ -10,16 +10,40 @@ export class UserController {
     this.repository = getManager().getRepository(User);
   }
   @Get('/users')
-  async getAll() {
-    const allUsers: [User] = await this.repository.find();
-    const usersWithoutPassword = allUsers.map(user => {
-      delete user.password
-      return user
-    })
+  async getAll(@Body() request: any) {
+    // Added base filter
+    const filter = {
+      firstName: '%',
+      lastName: '%',
+      email: '%'
+    };
+    
+    // Change filter values if we have them in the request
+    // TODO:: must find a way to improve this
+    if (request.firstName) {
+      filter.firstName = '%' + request.firstName + '%';
+    }
+    if (request.lastName) {
+      filter.lastName = '%' + request.lastName + '%';
+    }
+
+    if (request.email) {
+      filter.email = '%' + request.email + '%';
+    }
+
+    // Create a Paginated query to return all the users
+    const allUsers: [User] = await this.repository
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.enabled'])
+      .skip(request.limit)
+      .take(request.offset)
+      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
+      .getMany();
+
     return {
       success: true,
-      users: usersWithoutPassword
-    }
+      users: allUsers
+    };
   }
 
   @Get('/users/:id')
@@ -68,6 +92,7 @@ export class UserController {
   async login(@Body() request: any) {
     const userToFind = await this.repository
       .createQueryBuilder('user')
+      .select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.enabled', 'user.password'])
       .where('user.email = :email and enabled = true', { email: request.email })
       .getOne();
 
@@ -81,9 +106,9 @@ export class UserController {
 
     // Validate password
     if (bcrypt.compareSync(request.password, userToFind.password)) {
-      delete userToFind.password
+      delete userToFind.password;
       return {
-        success: true, 
+        success: true,
         data: userToFind
       };
     } else {
