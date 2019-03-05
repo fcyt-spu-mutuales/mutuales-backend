@@ -9,7 +9,7 @@ export class UserController {
   constructor() {
     this.repository = getManager().getRepository(User);
   }
-  @Get('/users')
+  @Post('/users')
   async getAll(@Body() request: any) {
     // Added base filter
     const filter = {
@@ -35,8 +35,8 @@ export class UserController {
     const allUsers: [User] = await this.repository
       .createQueryBuilder('user')
       .select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.enabled'])
-      .skip(request.limit)
-      .take(request.offset)
+      .skip(request.offset)
+      .take(request.limit)
       .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
       .getMany();
 
