@@ -15,7 +15,8 @@ export class UserController {
     const filter = {
       firstName: '%',
       lastName: '%',
-      email: '%'
+      email: '%',
+      enabled: request.enabled
     };
 
     // Change filter values if we have them in the request
@@ -37,14 +38,14 @@ export class UserController {
       .select(['user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.enabled'])
       .skip(request.offset)
       .take(request.limit)
-      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
+      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName and user.enabled = :enabled', filter)
       .getMany();
 
     // Count how many records match
     const userSize: any = await this.repository
       .createQueryBuilder('user')
       .select('COUNT(user.id)', 'count')
-      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
+      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName and user.enabled = :enabled', filter)
       .getRawOne();
 
     return {
