@@ -17,7 +17,7 @@ export class UserController {
       lastName: '%',
       email: '%'
     };
-    
+
     // Change filter values if we have them in the request
     // TODO:: must find a way to improve this
     if (request.firstName) {
@@ -42,15 +42,15 @@ export class UserController {
 
     // Count how many records match
     const userSize: any = await this.repository
-    .createQueryBuilder('user')
-    .select('COUNT(user.id)','count')
-    .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
-    .getRawOne();
+      .createQueryBuilder('user')
+      .select('COUNT(user.id)', 'count')
+      .where('user.email like :email and user.firstName like :firstName and user.lastName like :lastName', filter)
+      .getRawOne();
 
     return {
       success: true,
       users: allUsers,
-      totalElements:userSize.count
+      totalElements: userSize.count
     };
   }
 
@@ -128,10 +128,19 @@ export class UserController {
   }
 
   @Delete('/users/:id')
-  remove(@Param('id') id: number) {
-    const currentUser: User = this.repository.findOne(id);
+  async remove(@Param('id') id: number) {
+    const currentUser: User = await this.repository.findOne(id);
     if (currentUser) {
-      return this.repository.remove(currentUser);
+      await this.repository.remove(currentUser);
+      return {
+        success: true,
+        message: 'User deleted'
+      };
+    } else {
+      return {
+        success: false,
+        message: 'User does not exists'
+      };
     }
   }
 }
