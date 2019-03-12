@@ -65,10 +65,8 @@ export class Cooperative {
   })
   type: EntityType;
 
-
   @OneToMany(type => User, user => user.cooperative, {
     nullable: true
   })
   users: User[];
-
 }
