@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Cooperative } from './cooperative.entity';
+
+export enum UserType {
+  MOBILE = 'mobile',
+  ADMIN = 'admin',
+  MUTUAL = 'mutual'
+}
 
 @Entity()
 export class User {
@@ -23,4 +30,15 @@ export class User {
     default: false
   })
   enabled: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: UserType,
+    default: UserType.MOBILE,
+    nullable: false
+  })
+  type: UserType;
+
+  @ManyToOne(type => Cooperative, cooperative => cooperative.users)
+  cooperative: Cooperative
 }

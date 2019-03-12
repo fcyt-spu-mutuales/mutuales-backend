@@ -1,10 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { City } from './city.entity';
+import { User } from './user.entity';
 
 export enum EntityType {
-  MUTUAL = "mutual",
-  COOPERATIVE = "cooperative"
+  MUTUAL = 'mutual',
+  COOPERATIVE = 'cooperative'
 }
-
 
 @Entity()
 export class Cooperative {
@@ -14,10 +15,10 @@ export class Cooperative {
   @Column()
   name: string;
 
-  @Column({
+  @ManyToOne(type => City, city => city.cooperatives, {
     nullable: true
   })
-  city: number;
+  city: City;
 
   @Column()
   address: string;
@@ -51,16 +52,23 @@ export class Cooperative {
   @Column()
   enrollment: number;
 
-  @Column("simple-array", {
+  @Column('simple-array', {
     nullable: true
   })
   workingDays: string[];
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: EntityType,
     default: EntityType.COOPERATIVE,
     nullable: true
   })
-  type: EntityType
+  type: EntityType;
+
+
+  @OneToMany(type => User, user => user.cooperative, {
+    nullable: true
+  })
+  users: User[];
+
 }
