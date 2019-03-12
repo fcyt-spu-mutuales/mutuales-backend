@@ -14,22 +14,32 @@ export class Cooperative {
   @Column()
   name: string;
 
-  @Column()
-  state: string;
+  @Column({
+    nullable: true
+  })
+  city: number;
 
   @Column()
   address: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   phoneNumner: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   email: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   creationDate: Date;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   postalCode: string;
 
   @Column()
@@ -41,13 +51,16 @@ export class Cooperative {
   @Column()
   enrollment: number;
 
-  @Column("simple-array")
+  @Column("simple-array", {
+    nullable: true
+  })
   workingDays: string[];
 
   @Column({
     type: "enum",
     enum: EntityType,
-    default: EntityType.COOPERATIVE
+    default: EntityType.COOPERATIVE,
+    nullable: true
   })
   type: EntityType
 }
