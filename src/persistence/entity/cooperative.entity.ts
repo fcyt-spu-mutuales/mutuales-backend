@@ -43,11 +43,15 @@ export class Cooperative {
   })
   postalCode: string;
 
-  @Column()
-  latitude: number;
+  @Column({
+    nullable: true
+  })
+  latitude: string;
 
-  @Column()
-  longitude: number;
+  @Column({
+    nullable: true
+  })
+  longitude: string;
 
   @Column()
   enrollment: number;

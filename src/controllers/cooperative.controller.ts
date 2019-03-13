@@ -18,7 +18,7 @@ export class CooperativeController {
 
     return {
       success: true,
-      coopertives: allCooperatives
+      cooperatives: allCooperatives
     };
   }
 }
