@@ -21,4 +21,38 @@ export class CooperativeController {
       cooperatives: allCooperatives
     };
   }
+
+  @Post('/cooperatives')
+  async getAll(@Body() request: any) {
+
+     // Added base filter
+     const filter = {
+      name: '%',
+      address: '%'
+    };
+
+    // Create a Paginated query to return all the users
+    const allCooperatives: [Cooperative] = await this.repository
+      .createQueryBuilder('cooperative')
+      .select(['cooperative.id', 'cooperative.name','cooperative.address','cooperative.type'])
+      .skip(request.offset)
+      .take(request.limit)
+      .where('cooperative.name like :name and cooperative.address like :address', filter)
+      .getMany();
+
+
+      // Count how many records match
+    const cooperativesSize: any = await this.repository
+    .createQueryBuilder('cooperative')
+    .select('COUNT(cooperative.id)', 'count')
+    .where('cooperative.name like :name and cooperative.address like :address', filter)
+    .getRawOne();
+
+  return {
+    success: true,
+    cooperatives: allCooperatives,
+    totalElements: cooperativesSize.count
+  };
+
+  }
 }
