@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { Cooperative } from './cooperative.entity';
+import { Mutual } from './mutual.entity';
 
 export enum UserType {
   MOBILE = 'mobile',
@@ -39,6 +39,6 @@ export class User {
   })
   type: UserType;
 
-  @ManyToOne(type => Cooperative, cooperative => cooperative.users)
-  cooperative: Cooperative
+  @ManyToOne(type => Mutual, mutual => mutual.users)
+  mutual: Mutual
 }
