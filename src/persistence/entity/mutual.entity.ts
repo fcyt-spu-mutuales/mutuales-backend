@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Localidad } from './localidad.entity';
 import { User } from './user.entity';
+import { Asociados } from './asociados.entity';
+import { Directivo } from './directivo.entity';
+import { Empleados } from './empleados.entity';
+import { Instrumentos } from './instrumentos.entity';
+import { Comunicacion } from './comunicacion.entity';
+import { Planes } from './planes.entity';
+import { Economica } from './economica.entity';
+import { Servicios } from './servicios.entity';
 
 export enum TipoMutal {
   MUTUAL = 'mutual',
@@ -151,4 +159,28 @@ export class Mutual {
     nullable: true
   })
   users: User[];
+
+  @OneToOne(type => Asociados, asociados => asociados.mutual)
+  asociados: Asociados;
+
+  @OneToOne(type => Directivo, directivo => directivo.mutual)
+  directivo: Directivo;
+
+  @OneToOne(type => Empleados, empleados => empleados.mutual)
+  empleados: Empleados;
+
+  @OneToOne(type => Instrumentos, instrumentos => instrumentos.mutual)
+  instrumentos: Instrumentos;
+
+  @OneToOne(type => Comunicacion, comunicacion => comunicacion.mutual)
+  comunicacion: Comunicacion;
+
+  @OneToOne(type => Planes, planes => planes.mutual)
+  planes: Planes;
+
+  @OneToOne(type => Economica, economica => economica.mutual)
+  economica: Economica;
+
+  @OneToOne(type => Servicios, servicios => servicios.mutual)
+  servicios: Servicios;
 }

@@ -14,6 +14,14 @@ export class MutualController {
     const mutual: Mutual = this.repository
       .createQueryBuilder('mutual')
       .where('mutual.id = :id', id)
+      .leftJoinAndSelect("mutual.asociados", "asociados")
+      .leftJoinAndSelect("mutual.comunicacion", "comunicacion")
+      .leftJoinAndSelect("mutual.directivo", "directivo")
+      .leftJoinAndSelect("mutual.empleados", "empleados")
+      .leftJoinAndSelect("mutual.instrumentos", "instrumentos")
+      .leftJoinAndSelect("mutual.planes", "planes")
+      .leftJoinAndSelect("mutual.economica", "economica")
+      .leftJoinAndSelect("mutual.servicios", "servicos")
       .getOne();
 
     if (mutual) {
