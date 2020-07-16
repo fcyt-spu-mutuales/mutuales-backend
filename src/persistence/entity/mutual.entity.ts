@@ -9,6 +9,8 @@ import { Comunicacion } from './comunicacion.entity';
 import { Planes } from './planes.entity';
 import { Economica } from './economica.entity';
 import { Servicios } from './servicios.entity';
+import { Actividad } from './actividad.entity';
+import { Necesidades } from './necesidades.entity';
 
 export enum TipoMutal {
   MUTUAL = 'mutual',
@@ -183,4 +185,10 @@ export class Mutual {
 
   @OneToOne(type => Servicios, servicios => servicios.mutual)
   servicios: Servicios;
+
+  @OneToOne(type => Necesidades, necesidades => necesidades.mutual)
+  necesidades: Necesidades;
+
+  @OneToMany(type => Actividad, actividad => actividad.mutual)
+    actividades: Actividad[];
 }

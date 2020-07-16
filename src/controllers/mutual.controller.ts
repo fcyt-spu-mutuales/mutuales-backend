@@ -22,6 +22,8 @@ export class MutualController {
       .leftJoinAndSelect("mutual.planes", "planes")
       .leftJoinAndSelect("mutual.economica", "economica")
       .leftJoinAndSelect("mutual.servicios", "servicos")
+      .leftJoinAndSelect("mutual.necesidades", "necesidades")
+      .leftJoinAndSelect("mutual.actividades", "actividad")
       .getOne();
 
     if (mutual) {
