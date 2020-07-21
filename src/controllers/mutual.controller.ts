@@ -11,9 +11,14 @@ export class MutualController {
 
   @Get('/mutuales/:id')
   async getOne(@Param('id') id: number) {
-    const mutual: Mutual = this.repository
+    
+    const filter = {
+      id: id
+    };
+
+    const mutual: Mutual = await this.repository
       .createQueryBuilder('mutual')
-      .where('mutual.id = :id', id)
+      .where('mutual.id = :id', filter)
       .leftJoinAndSelect("mutual.asociados", "asociados")
       .leftJoinAndSelect("mutual.comunicacion", "comunicacion")
       .leftJoinAndSelect("mutual.directivo", "directivo")
@@ -70,7 +75,7 @@ export class MutualController {
     // Create a Paginated query to return all the users
     const mutuales: [Mutual] = await this.repository
       .createQueryBuilder('mutual')
-      .select(['mutual.id', 'mutual.nombre', 'mutual.direccion', 'cooperative.tipo'])
+      .select(['mutual.id', 'mutual.nombre', 'mutual.direccion', 'mutual.tipo'])
       .skip(request.offset)
       .take(request.limit)
       .where('mutual.nombre like :nombre and mutual.direccion like :direccion', filter)
