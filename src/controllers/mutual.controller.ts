@@ -9,6 +9,26 @@ export class MutualController {
     this.repository = getManager().getRepository(Mutual);
   }
 
+  @Get('/mutuales/map')
+  async getAllForMap() {
+    const mutuales: Mutual[] = await this.repository
+      .createQueryBuilder('mutual')
+      .select([
+        'mutual.id',
+        'mutual.nombre',
+        'mutual.direccion',
+        'mutual.latitud',
+        'mutual.longitud',
+        'mutual.tipo'
+      ])
+      .getMany();
+
+    return {
+      success: true,
+      mutuales: mutuales
+    };
+  }
+
   @Get('/mutuales/:id')
   async getOne(@Param('id') id: number) {
     
@@ -42,26 +62,6 @@ export class MutualController {
         message: 'Mutual no encontrada'
       };
     }
-  }
-
-  @Get('/mutuales/map')
-  async getAllForMap() {
-    const mutuales: Mutual[] = await this.repository
-      .createQueryBuilder('mutual')
-      .select([
-        'mutual.id',
-        'mutual.nombre',
-        'mutual.direccion',
-        'mutual.latitud',
-        'mutual.longitud',
-        'mutual.tipo'
-      ])
-      .getMany();
-
-    return {
-      success: true,
-      mutuales: mutuales
-    };
   }
 
   @Post('/mutuales')
