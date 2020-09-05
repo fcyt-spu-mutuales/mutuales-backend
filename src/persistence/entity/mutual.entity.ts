@@ -119,7 +119,7 @@ export class Mutual {
   @Column({
     nullable: true
   })
-  cantidadFiliales: number;
+  cantidadFiliales: string;
   
   @Column({
     nullable: true
@@ -144,18 +144,12 @@ export class Mutual {
   @Column({
     nullable: true
   })
-  usaRedSocial: boolean;
+  usaRedSocial: string;
 
   @Column({
     nullable: true
   })
   respondeRelevamiento: string;
-
-  /*@Column('simple-array', {
-    nullable: true
-  })
-  workingDays: string[];
-  */
  
   @OneToMany(type => User, user => user.mutual, {
     nullable: true
