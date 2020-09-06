@@ -41,6 +41,8 @@ export class MutualController {
       .where('mutual.id = :id', filter)
       .leftJoinAndSelect("mutual.asociados", "asociados")
       .leftJoinAndSelect("mutual.comunicacion", "comunicacion")
+      .leftJoinAndSelect("mutual.localidad", "localidad")
+      .leftJoinAndSelect("localidad.departamento", "departamento")
       .leftJoinAndSelect("mutual.directivo", "directivo")
       .leftJoinAndSelect("mutual.empleados", "empleados")
       .leftJoinAndSelect("mutual.instrumentos", "instrumentos")

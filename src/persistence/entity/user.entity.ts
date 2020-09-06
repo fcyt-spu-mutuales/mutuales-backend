@@ -34,7 +34,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: UserType,
-    default: UserType.MOBILE,
+    default: UserType.MUTUAL,
     nullable: false
   })
   type: UserType;
