@@ -78,6 +78,8 @@ export class MutualController {
     const mutuales: [Mutual] = await this.repository
       .createQueryBuilder('mutual')
       .select(['mutual.id', 'mutual.nombre', 'mutual.direccion', 'mutual.tipo'])
+      .leftJoinAndSelect("mutual.localidad", "localidad")
+      .leftJoinAndSelect("localidad.departamento", "departamento")
       .skip(request.offset)
       .take(request.limit)
       .where('mutual.nombre like :nombre and mutual.direccion like :direccion', filter)
