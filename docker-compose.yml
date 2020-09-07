@@ -1,5 +1,18 @@
 version: "3.2"
 services:
+  backend-mubuales:
+    build: ./
+    depends_on:
+      - db-mutuales
+    restart: always
+    environment:
+      - PG_USER=mutuales
+      - PG_PASSWORD=mutualesFCYT
+      - PG_DATABASE=mutuales
+      - PG_HOSTNAME=db-mutuales
+      - PG_PORT=5432
+    ports:
+      - '3000:3000'
   db-mutuales:
     container_name: db-mutuales
     image: postgres
@@ -7,6 +20,6 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: mutuales
-      POSTGRES_USER: mutuales
-      POSTGRES_PASSWORD: mutualesFCYT
+      - POSTGRES_DB=mutuales
+      - POSTGRES_USER=mutuales
+      - POSTGRES_PASSWORD=mutualesFCYT
